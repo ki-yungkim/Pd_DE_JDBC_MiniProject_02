@@ -36,10 +36,16 @@ public class ReserveService {
 		return dao.updateOne(name, idNumber, phoneNumber);
 	}
 
+	public boolean deleteOne(String name, String idNumber) {
+		return dao.deleteOne(name, idNumber);
+	}
 	
 	public ArrayList<ReserveMember> selectAll() {
 		return dao.selectAll();
 		
 	}
 
+	public boolean deleteOneAdmin(String name, String idNumber) {
+		return dao.deleteOneAdmin(name, idNumber);
+	}
 }

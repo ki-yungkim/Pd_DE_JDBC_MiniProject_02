@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.work.model.CenterList;
 import com.work.model.ReserveMember;
+import com.work.model.VaccineCount;
 import com.work.service.CenterService;
 import com.work.service.ReserveService;
 import com.work.service.VaccineService;
@@ -84,10 +85,6 @@ public class Menu {
 		case 2:
 			selectTotalVaccineCount();
 			break;
-		case 3:
-			break;
-		case 4:
-			break;
 		case 0:
 			mainMenu();
 			break;
@@ -107,11 +104,11 @@ public class Menu {
 		if (vacci != null) {
 			System.out.println(vacci);
 			pause();
-			centerMenu();
+			vaccineCountMenu();
 		} else {
 			System.out.println("조회 실패 : 접종자 수 정보가 존재하지 않습니다.");
 			pause();
-			centerMenu();
+			vaccineCountMenu();
 		}
 	}
 
@@ -127,11 +124,11 @@ public class Menu {
 		if (vacci != null) {
 			System.out.println(vacci);
 			pause();
-			centerMenu();
+			vaccineCountMenu();
 		} else {
 			System.out.println("조회 실패 : 누적 접종자 수 정보가 존재하지 않습니다.");
 			pause();
-			centerMenu();
+			vaccineCountMenu();
 		}
 	}
 
@@ -180,7 +177,8 @@ public class Menu {
 			selectFacilityName();
 			break;
 		case 3:
-			selectAdress();
+			//selectAdress();
+			selectAddressAll();
 			break;
 		case 4:
 			selectPhoneNumber();
@@ -228,6 +226,7 @@ public class Menu {
 
 	}
 
+	// 여러개 있으면 다 나오게 처리 필요 
 	public void selectAdress() {
 		printTitle("주소로 상세 조회");
 		System.out.print("주소 : ");
@@ -243,6 +242,25 @@ public class Menu {
 			centerMenu();
 		}
 
+	}
+	
+	public void selectAddressAll() {
+		printTitle("주소로 상세 조회 - 여러 개 ");
+		System.out.print("주소 : ");
+		String address = inputString();
+		ArrayList<CenterList> list = service.getAddressAll(address);
+		if (list != null) {
+			for (CenterList center : list) {
+				System.out.println(center);
+			}
+			pause();
+			adminMenu();
+		} else {
+			System.out.println("조회 실패 : 센터정보가 존재하지 않습니다.");
+			pause();
+			centerMenu();
+		}
+		
 	}
 
 
@@ -347,7 +365,7 @@ public class Menu {
 		System.out.println("1. 등록 정보 조회");
 		System.out.println("2. 등록 연락처 변경");
 		System.out.println("3. 등록 정보 삭제");
-		System.out.println("0. 메인메뉴로 돌아가기");
+		System.out.println("0. 로그아웃하고 메인메뉴로 돌아가기");
 		printLine();
 
 		System.out.print("메뉴번호 입력 : ");
@@ -363,8 +381,7 @@ public class Menu {
 			updateReservePhoneNumber();
 			break;
 		case 3:
-			break;
-		case 4:
+			deleteReserveOne();
 			break;
 		case 0:
 			mainMenu();
@@ -418,6 +435,31 @@ public class Menu {
 
 	}
 	
+	//신청자 - 등록 정보 삭제
+	public void deleteReserveOne() {
+		printTitle("등록 정보 삭제");
+		System.out.println("정보를 다시 한번 확인합니다.");
+		System.out.print("이름 : ");
+		String name = inputString();
+		
+		System.out.print("주민번호 : ");
+		String idNumber = inputString();
+		
+		
+		boolean result = rService.deleteOne(name, idNumber);
+				
+		if (result != false) {
+			pause();
+			System.out.println("삭제 완료");
+			reserveMenu();
+		} else {
+			System.out.println("삭제 실패 : 정보가 존재하지 않습니다.");
+			pause();
+			reserveMenu();
+		}
+
+	}
+	
 	
 	public boolean adminLogin() {
 		printTitle("관리자 로그인");
@@ -446,17 +488,23 @@ public class Menu {
 
 		printTitle("관리자 메뉴");
 
-		System.out.println("1. 전체센터조회");
-		System.out.println("2. 등록 센터 수 조회");
-		System.out.println("3. 센터 정보 변경");
-		System.out.println("4. 센터 정보 삭제");
-		System.out.println("5. 백신 접종 수 전체 조회");
-		System.out.println("6. 백신 접종 수 등록");
-		System.out.println("7. 백신 접종 수 삭제");
-		System.out.println("8. 2차 접종 알림 신청자 전체 조회");
-		System.out.println("9. 2차 접종 알림 신청자 수 조회");
-		System.out.println("10. 2차 접종 알림 신청자 정보 변경");
+		
+		System.out.println("1. 백신 접종 수 전체 조회");
+		System.out.println("2. 백신 접종 수 등록");
+		System.out.println("3. 백신 접종 수 변경");
+		System.out.println("4. 백신 접종 수 삭제");
+		
+		System.out.println("5. 전체센터조회");
+		System.out.println("6. 등록 센터 수 조회");
+		System.out.println("7. 센터 등록");
+		System.out.println("8. 센터 연락처 정보 변경");
+		System.out.println("9. 센터 정보 삭제");
+		
+		
+		
+		System.out.println("10. 2차 접종 알림 신청자 전체 조회");
 		System.out.println("11. 2차 접종 알림 신청자 삭제");
+		
 		System.out.println("0. 메인메뉴로 돌아가기");
 		printLine();
 
@@ -467,30 +515,43 @@ public class Menu {
 		switch(menuNo) { 
 
 		case 1:
-			selectCenterAll();
+			selectVaccineAll();
 			break;
 		case 2:
-			selectCount();
+			insertVaccineCunt();
 			break;
 		case 3:
+			updateVaccineCunt();
 			break;
 		case 4:
-			break;
+			deleteVaccineCount();
+			break;	
+		
 		case 5:
+			selectCenterAll();
 			break;
 		case 6:
+			selectCount();
 			break;
 		case 7:
+			insertCeneter();
 			break;
 		case 8:
-			selectR();
+			updateCenterPhone();
 			break;
 		case 9:
+			deleteCenterOne();
 			break;
+			
+		
+			
 		case 10:
+			selectR();
 			break;
 		case 11:
+			deleteReserveOneAdmin();
 			break;
+			
 		case 0:
 			mainMenu();
 			break;
@@ -504,7 +565,8 @@ public class Menu {
 		for (CenterList center : list) {
 			System.out.println(center);
 		}
-
+		pause();
+		adminMenu();
 	}
 
 	//2
@@ -514,47 +576,238 @@ public class Menu {
 		if (count != 0) {
 			System.out.println(count);
 			pause();
-			centerMenu();
+			adminMenu();
 		} else {
 			System.out.println("센터정보가 존재하지 않습니다.");
 			pause();
-			centerMenu();
+			adminMenu();
 		}
 		return 0;
 	}
 	
+
+	//3 
+	
+	public void insertCeneter() {
+		printTitle("관리자 - 센터 등록");
+		System.out.print("센터명 : ");
+		String centerName = inputString();
+		
+		System.out.print("시설명 : ");
+		String facilityName = inputString();
+		
+		System.out.print("우편번호 : ");
+		String postcode = inputString();
+		
+		System.out.print("주소 : ");
+		String address = inputString();
+		
+		System.out.print("세부 주소 : ");
+		String addressDetail = inputString();
+		
+		System.out.print("전화번호 : ");
+		String phoneNumber = inputString();
+		
+		boolean result = service.insertCenter(centerName, facilityName, postcode, address, addressDetail, phoneNumber);
+		
+		if (result != false) {
+			System.out.println("등록 성공");
+			pause();
+			adminMenu();
+		} else {
+			System.out.println("등록 실패");
+			pause();
+			adminMenu();
+		}
+
+	}
+	
+	//4 센터 정보 변경
+	
+	public void updateCenterPhone() {
+		printTitle("센터 연락처 변경");
+		System.out.print("센터명 : ");
+		String centerName = inputString();
+		
+		System.out.print("변경할 연락처: ");
+		String phoneNumber = inputString();
+		
+		boolean result = service.updateCenterPhone(centerName, phoneNumber);
+				
+		if (result != false) {
+			pause();
+			System.out.println("변경 완료");
+			adminMenu();
+		} else {
+			System.out.println("변경 실패 : 정보가 존재하지 않습니다.");
+			pause();
+			adminMenu();
+		}
+
+	}
+	
+	//5 센터 정보 삭제
+	public void deleteCenterOne() {
+		printTitle("센터 정보 삭제");
+		System.out.print("센터명 : ");
+		String centerName = inputString();
+		
+		boolean result = service.deleteCenterOne(centerName);
+				
+		if (result != false) {
+			pause();
+			System.out.println("삭제 완료");
+			adminMenu();
+		} else {
+			System.out.println("삭제 실패 : 정보가 존재하지 않습니다.");
+			pause();
+			adminMenu();
+		}
+
+	}
+	
+	//6 백신 접종수 정보 전체 조회
+	
+	public void selectVaccineAll() {
+		printTitle("관리자 - 접종자 수 정보 전체 조회");
+		ArrayList<VaccineCount> list = vacService.getSelectAll();
+		for (VaccineCount vaccineDate : list) {
+			System.out.println(vaccineDate);
+		}
+		pause();
+		adminMenu();
+	}
+	
+	//7 백신 접종수 정보 등록
+	public void insertVaccineCunt() {
+		printTitle("백신 접종 수 등록");
+		System.out.print("날짜 : ");
+		String day = inputString();
+		
+		System.out.print("지역 : ");
+		String region = inputString();
+		
+		System.out.print("1차 접종수 : ");
+		int yFirst = inputNumber();
+		
+		System.out.print("2차 접종수 : ");
+		int ySecond = inputNumber();
+		
+		System.out.print("누적 1차 접종수 : ");
+		int tFirst = inputNumber();
+		
+		System.out.print("누적 2차 접종수 : ");
+		int tSecond = inputNumber();
+		
+		boolean result = vacService.insertVaccienCount(day, region, yFirst, ySecond, tFirst, tSecond);
+		
+		if (result != false) {
+			System.out.println("등록 성공");
+			pause();
+			adminMenu();
+		} else {
+			System.out.println("등록 실패");
+			pause();
+			adminMenu();
+		}
+
+	}
+	//8 백신 접종수 정보 변경 
+	public void updateVaccineCunt() {
+		printTitle("백신 접종 수 정보 변경");
+		System.out.print("날짜 : ");
+		String day = inputString();
+		
+		System.out.print("지역 : ");
+		String region = inputString();
+		
+		System.out.print("변경할 1차 접종수 : ");
+		int yFirst = inputNumber();
+		
+		System.out.print("변경할 2차 접종수 : ");
+		int ySecond = inputNumber();
+		
+		System.out.print("변경할 누적 1차 접종수 : ");
+		int tFirst = inputNumber();
+		
+		System.out.print("변경할 누적 2차 접종수 : ");
+		int tSecond = inputNumber();
+		
+		boolean result = vacService.updateVaccienCount(day, region, yFirst, ySecond, tFirst, tSecond);
+		
+		if (result != false) {
+			System.out.println("변경 성공");
+			pause();
+			adminMenu();
+		} else {
+			System.out.println("등록 실패");
+			pause();
+			adminMenu();
+		}
+
+	}
+	//9 백신 접종수 정보 삭제 
+	public void deleteVaccineCount() {
+		printTitle("백신 접종 수 정보 삭제");
+		System.out.print("날짜 : ");
+		String day = inputString();
+		
+		System.out.print("지역 : ");
+		String region = inputString();
+		
+		boolean result = vacService.deleteVaccienCount(day, region);
+		
+		if (result != false) {
+			System.out.println("삭제 성공");
+			pause();
+			adminMenu();
+		} else {
+			System.out.println("등록 실패");
+			pause();
+			adminMenu();
+		}
+
+	}
 	
 	
-	//3
-	//4
-	//5
-	//6
-	//7
-	//9
+	
 	//10
-	//11
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//8
 	public void selectR() {
 		printTitle("관리자 - 신청자 정보 전체 조회");
 		ArrayList<ReserveMember> list = rService.selectAll();
 		for (ReserveMember member : list) {
 			System.out.println(member);
 		}
-		
+		pause();
+		adminMenu();
 	}
+	
+	
+	//11 관리자 - 신청자 정보 삭제 
+		public void deleteReserveOneAdmin() {
+			printTitle("등록 정보 삭제");
+			System.out.println("정보를 다시 한번 확인합니다.");
+			System.out.print("이름 : ");
+			String name = inputString();
+			
+			System.out.print("주민번호 : ");
+			String idNumber = inputString();
+			
+			
+			boolean result = rService.deleteOneAdmin(name, idNumber);
+					
+			if (result != false) {
+				pause();
+				System.out.println("삭제 완료");
+				adminMenu();
+			} else {
+				System.out.println("삭제 실패 : 정보가 존재하지 않습니다.");
+				pause();
+				adminMenu();
+			}
+
+		}
+	
 
 
 	public static void print(String message) {

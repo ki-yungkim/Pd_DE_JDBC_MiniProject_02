@@ -3,6 +3,7 @@ package com.work.service;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.work.model.VaccineCount;
 import com.work.model.VaccineDao;
 import com.work.util.Utility;
 
@@ -15,24 +16,33 @@ public class VaccineService {
 	public String getVaccineCount(String day, String region) {
 		ArrayList list = new ArrayList();
 		list = dao.selectVaccineCount(day, region);
-		int first = (int) list.get(0); 
-		int second = (int) list.get(1);
-		String vacciCount = day + " 기준 " + region + " 지역의 1차 접종자 수는 " +  utility.commaThousand(first) 
-							+ "명, 2차 접종자 수는 " + utility.commaThousand(second) + "명 입니다. ";
- 		
-		return vacciCount;
+		if(list != null) {
+			int first = (int) list.get(0); 
+			int second = (int) list.get(1);
+			String vacciCount = day + " 기준 " + region + " 지역의 1차 접종자 수는 " +  utility.commaThousand(first) 
+								+ "명, 2차 접종자 수는 " + utility.commaThousand(second) + "명 입니다. ";
+	 		
+			return vacciCount;
+		}
+		return null;
 	}
 	
 	// 누적 접종자 수 조회
 	public String getTotalVaccineCount(String day, String region) {
 		ArrayList list = new ArrayList();
 		list = dao.selectTotalVaccineCount(day, region);
-		int first = (int) list.get(0); 
-		int second = (int) list.get(1);
-		String vacciCount = day + " 기준 " + region + " 지역의  누적 1차 접종자 수는 " +  utility.commaThousand(first) 
-							+ "명, 누적 2차 접종자 수는 " + utility.commaThousand(second) + "명 입니다. ";
+		if (list != null) {
+			int first = (int) list.get(0); 
+			int second = (int) list.get(1);
+			String vacciCount = day + " 기준 " + region + " 지역의  누적 1차 접종자 수는 " +  utility.commaThousand(first) 
+			+ "명, 누적 2차 접종자 수는 " + utility.commaThousand(second) + "명 입니다. ";
+			
+			return vacciCount;
+		}
+		
+		
  		
-		return vacciCount;
+		return null;
 	}
 	
 	public String prefferdMember(int age, String job) { 
@@ -91,5 +101,27 @@ public class VaccineService {
 		}
 		return result;
 
+	}
+	
+	
+	public ArrayList<VaccineCount> getSelectAll(){
+		return dao.selectAll();
+		
+	}
+	
+	public boolean insertVaccienCount(String day, String region, int yFirst, int ySecond, int tFirst, int tSecond) {
+		
+		return dao.insertVaccienCount(day, region, yFirst, ySecond, tFirst, tSecond);
+	}
+	
+	
+	public boolean updateVaccienCount(String day, String region, int yFirst, int ySecond, int tFirst, int tSecond) {
+		
+		return dao.updateVaccineCount(day, region, yFirst, ySecond, tFirst, tSecond);
+	}
+	
+	public boolean deleteVaccienCount(String day, String region) {
+		
+		return dao.deleteVaccineCount(day, region);
 	}
 }

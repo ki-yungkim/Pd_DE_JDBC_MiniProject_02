@@ -116,7 +116,6 @@ public class CenterDao {
 				String centerName = rs.getString("center_name");
 				String facilityName = rs.getString("facility_name");
 				String postcode = rs.getString("postnumber");
-				//String address = rs.getString("adress");
 				String addressDetail = rs.getString("adress_detail");
 				String phoneNumber = rs.getString("phone_number");
 
@@ -134,6 +133,46 @@ public class CenterDao {
 	}
 
 
+	public ArrayList<CenterList> selectAddressAll(String address) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		ArrayList<CenterList> list = new ArrayList<CenterList>();
+
+		try {
+			conn = factory.getConnection();
+
+			String  sql = "select * from center_list where adress = ?";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, address);
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				int centerNo = rs.getInt("center_no");
+				String centerName = rs.getString("center_name");
+				String facilityName = rs.getString("facility_name");
+				String postcode = rs.getString("postnumber");
+				String adress = rs.getString("adress");
+				String adressDetail = rs.getString("adress_detail");
+				String phoneNumber = rs.getString("phone_number");
+
+				CenterList dto = new CenterList(centerNo, centerName, facilityName, postcode, adress, adressDetail, phoneNumber);
+				list.add(dto);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("[오류] 주소로 센터 정보 상세조회");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt, rs);
+		}
+
+		return list;
+	}
+	
 	// 전화번호로 센터조회
 
 	public CenterList selectOneByPhoneNumber(String phoneNumber) {
@@ -282,13 +321,109 @@ public class CenterDao {
 		return 0;
 	}
 	
-	// 관리자 - 추가 등록 
+	// 관리자 - 센터 정보 등록 
+	public boolean insertCenter(String centerName, String facilityName, String postcode, String address, String addressDetail, String phoneNumber) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+
+
+		try {
+			conn = factory.getConnection();
+
+			String sql = "insert into center_list values(seq_center.nextval, ?, ?, ?, ?, ?, ?)";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, centerName);
+			stmt.setString(2, facilityName);
+			stmt.setString(3, postcode);
+			stmt.setString(4, address);
+			stmt.setString(5, addressDetail);
+			stmt.setString(6, phoneNumber);
+
+			int rows = stmt.executeUpdate();
+			if (rows > 0) {
+				return true;	
+			} else {
+				System.out.println("정보가 없습니다");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("[오류] 센터 등록");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt);
+		}
+
+		return false;
+	}
+	
+	// 관리자 - 센터 연락처 정보 변경 
+	public boolean updateCenterPhone(String centerName, String phoneNumber) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+
+
+		try {
+			conn = factory.getConnection();
+
+			String sql = "update center_list set phone_number = ? where center_Name = ? ";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, phoneNumber);
+			stmt.setString(2, centerName);
+			
+
+			int rows = stmt.executeUpdate();
+			if (rows > 0) {
+				return true;	
+			}
+
+		} catch (SQLException e) {
+			System.out.println("[오류] 센터 연락처 정보 변경");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt);
+		}
+
+		return false;
+	}
+	
+	// 관리자 - 센터 하나 삭제 
+	public boolean deleteCenterOne(String centerName) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+
+
+		try {
+			conn = factory.getConnection();
+
+			String sql = "delete from center_list where center_Name = ? ";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, centerName);
+			
+
+			int rows = stmt.executeUpdate();
+			if (rows > 0) {
+				return true;	
+			}
+
+		} catch (SQLException e) {
+			System.out.println("[오류] 센터 정보 삭제");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt);
+		}
+
+		return false;
+	}
 	
 	// 관리자 - 센터 정보 전체 삭제 
 
-	// 관리자 - 센터 하나 삭제 
 
-	// 관리자 - 센터 정보 변경 
+
+	
 
 
 	// 초기 등록 센터 전달 

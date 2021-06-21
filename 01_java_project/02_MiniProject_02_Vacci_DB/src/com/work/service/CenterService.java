@@ -21,6 +21,10 @@ public class CenterService {
 		return dao.selectOneByAdress(adress);
 	}
 	
+	public ArrayList<CenterList> getAddressAll(String address) {
+		return dao.selectAddressAll(address);
+	}
+	
 	public CenterList getCenterByPhoneNumber(String phoneNumber) {
 		return dao.selectOneByPhoneNumber(phoneNumber);
 	}
@@ -37,6 +41,22 @@ public class CenterService {
 	public String adminLogin(String adminId, String adminPw)  {
 		return dao.adminLogin(adminId, adminPw);
 	}
+	
+	public boolean insertCenter(String centerName, String facilityName, String postcode, String address, 
+								String addressDetail, String phoneNumber) {
+		
+		return dao.insertCenter(centerName, facilityName, postcode, address, addressDetail, phoneNumber);
+	}
+	
+	public boolean updateCenterPhone(String centerName, String phoneNumber) {
+		return dao.updateCenterPhone(centerName, phoneNumber);
+	}
+	
+	
+	public boolean deleteCenterOne(String centerName) {
+		return dao.deleteCenterOne(centerName);
+	}
+	
 }
 
 

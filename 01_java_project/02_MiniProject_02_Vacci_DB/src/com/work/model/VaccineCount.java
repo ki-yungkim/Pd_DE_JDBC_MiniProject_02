@@ -48,9 +48,8 @@ public class VaccineCount {
 	 * @param totalFirst 누적 접종 수
 	 * @param totalSecond 누적 접종 수
 	 */
-	public VaccineCount(int vacciCountNo, String day, String region, int yesterdayFirst, int yesterdaySecond, 
+	public VaccineCount( String day, String region, int yesterdayFirst, int yesterdaySecond, 
 			int totalFirst, int totalSecond) {
-		this.vacciCountNo = vacciCountNo;
 		this.day = day;
 		this.region = region;
 		this.yesterdayFirst = yesterdayFirst;
@@ -59,6 +58,17 @@ public class VaccineCount {
 		this.totalSecond = totalSecond;
 	}
 
+	
+	
+	
+	
+
+	public VaccineCount(int vacciCountNo, String day, String region, int yesterdayFirst, int yesterdaySecond,
+			int totalFirst, int totalSecond) {
+		this(day,region, yesterdayFirst, yesterdaySecond, totalFirst, totalSecond);
+		this.vacciCountNo = vacciCountNo;
+		
+	}
 
 	/**
 	 * @return the vacciCountNo

@@ -159,6 +159,35 @@ public class ReserveDao {
 	return false;
 }
 
+	// 등록 정보 삭제
+	public boolean deleteOne(String name, String idNumber) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+
+		try {
+			conn = factory.getConnection();
+
+			String  sql = "delete from reserve where r_name = ? and id_number = ? ";
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, name);
+			stmt.setString(2, idNumber);
+
+			int rows = stmt.executeUpdate();
+			if (rows > 0) {
+				return true;	
+			}
+		
+	} catch (SQLException e) {
+		System.out.println("[오류] 등록 정보 삭제");
+		e.printStackTrace();
+	} finally {
+		factory.close(conn, stmt);
+	}
+
+	return false;
+}
+	
 
 // 관리자 - 신청자 정보 전체 조회
 
@@ -182,7 +211,7 @@ public class ReserveDao {
 				String address = rs.getString("address");
 				String idNumber = rs.getString("id_number");
 				String vaccineName = rs.getString("vaccine_name");
-				String firstVaccination = rs.getString("f_vaccindate");
+				String firstVaccination = rs.getString("f_vaccinedate");
 
 				ReserveMember dto = new ReserveMember(name, phoneNumber, address, idNumber, vaccineName, firstVaccination);
 				list.add(dto);
@@ -197,6 +226,36 @@ public class ReserveDao {
 
 		return list;
 		
+	}
+	
+	
+	// 관리자 - 등록 정보 삭제
+		public boolean deleteOneAdmin(String name, String idNumber) {
+			Connection conn = null;
+			PreparedStatement stmt = null;
+
+			try {
+				conn = factory.getConnection();
+
+				String  sql = "delete from reserve where r_name = ? and id_number = ? ";
+				stmt = conn.prepareStatement(sql);
+
+				stmt.setString(1, name);
+				stmt.setString(2, idNumber);
+
+				int rows = stmt.executeUpdate();
+				if (rows > 0) {
+					return true;	
+				}
+			
+		} catch (SQLException e) {
+			System.out.println("[오류] 등록 정보 삭제");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt);
+		}
+
+		return false;
 	}
 	
 	
