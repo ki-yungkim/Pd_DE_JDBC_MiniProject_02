@@ -6,6 +6,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * <pre>
+ * 2차 접종 알림 신청자 DAO 클래스
+ * 
+ * # 메서드 목록
+ *  1. 신청자 정보 등록
+ *  2. 신청자 로그인
+ *  3. 신청자 정보 조회
+ *  4. 신청자 연락처 정보 변경
+ *  5. 등록정보 삭제
+ *  6. 관리자 - 신청자 정보 전체 조회
+ *  7. 관리자 - 신청자 등록 정보 삭제
+ * 
+ * </pre>
+ * 
+ * @author 김기영
+ * @version ver 2.0
+ * @since jdk1.8
+ * 
+ * 
+ */
 public class ReserveDao {
 
 	private FactoryDao factory = FactoryDao.getInstance();
@@ -20,8 +41,17 @@ public class ReserveDao {
 		return instance;
 	}
 
-	// 등록 
 
+	/**
+	 * 신청자 정보 등록
+	 * @param name 이름
+	 * @param mobile 전화번호
+	 * @param adress 주소
+	 * @param idNumber 주민번호
+	 * @param vaccineName 백신명
+	 * @param firstVaccineDate 1차접종일
+	 * @return 등록 성공하면 true, 실패하면 falses
+	 */
 	public boolean updateReserveMember(String name, String mobile, String adress, String idNumber, 
 			String vaccineName, String firstVaccineDate) {
 		Connection conn = null;
@@ -56,8 +86,14 @@ public class ReserveDao {
 		return false;
 	}
 
-
-	// 2차 알림 신청자 로그인
+	
+	/**
+	 * 2차 알림 신청자 로그인
+	 * @param registrantName 신청자 이름
+	 * @param idNumber 주민번호
+	 * @return 백신명 
+	 */
+	
 	public String rLogin(String registrantName, String idNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -89,10 +125,13 @@ public class ReserveDao {
 		return null;
 	}
 
-
-
-
-	// 2차 알림 신청자 정보  조회
+	
+	/**
+	 * 2차 알림 신청자 정보 조회
+	 * @param name 이름
+	 * @param idNumber 주민번호
+	 * @return 신청자 정보 
+	 */
 	public ReserveMember selectOne(String name, String idNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -129,7 +168,13 @@ public class ReserveDao {
 	}
 
 
-	// 연락처 정보 변경 
+	/**
+	 * 연락처 정보 변경
+	 * @param name 이름
+	 * @param idNumber 주민번호
+	 * @param phoneNumber 변경할 연락처
+	 * @return 성공하면 true, 실패하면 false
+	 */
 	public boolean updateOne(String name, String idNumber, String phoneNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -159,7 +204,12 @@ public class ReserveDao {
 	return false;
 }
 
-	// 등록 정보 삭제
+	/**
+	 * 등록 정보 삭제
+	 * @param name 아이디
+	 * @param idNumber 주민번호
+	 * @return 성공하면 true, 실패하면 false
+	 */ 
 	public boolean deleteOne(String name, String idNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -189,8 +239,11 @@ public class ReserveDao {
 }
 	
 
-// 관리자 - 신청자 정보 전체 조회
 
+	/**
+	 * 관리자 - 신청자 정보 전체 죄회
+	 * @return 신청자 정보
+	 */
 	public ArrayList<ReserveMember> selectAll() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -229,7 +282,12 @@ public class ReserveDao {
 	}
 	
 	
-	// 관리자 - 등록 정보 삭제
+	/**
+	 * 관리자 - 등록 정보 삭제
+	 * @param name 아이디
+	 * @param idNumber 주민번호
+	 * @return 성공하면 true, 실패하면 false
+	 */
 		public boolean deleteOneAdmin(String name, String idNumber) {
 			Connection conn = null;
 			PreparedStatement stmt = null;
@@ -257,26 +315,5 @@ public class ReserveDao {
 
 		return false;
 	}
-	
-	
-// 관리자 - 정보 수 조회
-
-// 관리자 - 데이터 전체 삭제 
-
-// 관리자 - 하나 삭제 
-
-// 관리자 - 데이터 변경 
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

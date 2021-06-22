@@ -6,7 +6,7 @@ package com.work.model;
  * </pre>
  * 
  * ## 접종 정보 
- * 	1. 고유번호
+ * 	1. 구분번호
  * 	2. 날짜
  * 	3. 지역
  * 	4. 전날 1차 접종
@@ -15,7 +15,7 @@ package com.work.model;
  * 	7. 누적 2차 접종 
  *
  * @author 김기영
- * @version ver 1.0
+ * @version ver 2.0
  * @since jdk1.8
  */
 public class VaccineCount {
@@ -40,7 +40,6 @@ public class VaccineCount {
 
 	/**
 	 * 필수 생성자 
-	 * @param idKey 고유번호
 	 * @param day 기준 일자 
 	 * @param region 지역
 	 * @param yesterdayFirst 전날 1차 접종 수
@@ -62,6 +61,16 @@ public class VaccineCount {
 	
 	
 	
+	/**
+	 * 전체 생성자
+	 * @param vacciCountNo 구분번호
+	 * @param day 날짜 
+	 * @param region 지역
+	 * @param yesterdayFirst 1차 접종자 수
+	 * @param yesterdaySecond 2차 접종자 수
+	 * @param totalFirst 누적 1차 접종자 수
+	 * @param totalSecond 누적 2차 접종자 수
+	 */
 
 	public VaccineCount(int vacciCountNo, String day, String region, int yesterdayFirst, int yesterdaySecond,
 			int totalFirst, int totalSecond) {

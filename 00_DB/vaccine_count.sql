@@ -86,3 +86,67 @@ create table vaccine_count (
     insert into vaccine_count
     values(seq_vaccine.nextval, '21-06-03', '경기도', 74413, 4772, 1467476, 473032);
 		
+        
+   -- 21-06-21
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '전국', 505, 1038, 15014819, 4047846);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '서울특별시', 66, 65, 2774797, 747880);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '부산광역시', 17, 17, 1081657, 255379);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '대구광역시', 151, 0, 634742, 166863 );
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '인천광역시', 35, 35, 786702, 199637 );
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '광주광역시', 0, 0, 420126, 122405);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '대전광역시', 8, 7, 397285, 109441);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval,'21-06-21', '울산광역시', 1, 0, 289576, 73965);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '세종특별자치시', 0, 0, 76039, 22998);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-21', '경기도', 114, 828, 3424420, 930548); 
+
+
+-- 21-06-22
+
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '전국', 20231, 116453, 15039998, 4167533);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '서울특별시', 4973, 21087, 2781608, 770136);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '부산광역시', 1207, 9621, 1083070, 265153);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '대구광역시', 946, 4578, 635802, 171569 );
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '인천광역시', 1425, 5980, 788393, 205816 );
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '광주광역시', 585, 2782, 420755, 125204);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '대전광역시', 578, 3203, 397948, 112665);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval,'21-06-22', '울산광역시', 390, 1597, 290029, 75596);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '세종특별자치시', 164, 275, 76213, 23278);
+    
+    insert into vaccine_count
+    values(seq_vaccine.nextval, '21-06-22', '경기도', 4416, 23561, 3430158, 955162);      

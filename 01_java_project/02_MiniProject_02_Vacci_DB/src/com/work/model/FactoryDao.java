@@ -7,18 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * 모든 DAO 클래스에서 사용하기 위한 
- * -- Connection 반환, 
- * -- close() 자원해제를 담당하는 기능으로만 분리설계
- * 
- * -- 모든 DAO 클래스에서 getConnection(), close(conn, stmt, rs) : 호출사용  
- * 
- * -- Singleton pattern 구현
- * 1. private 생성자
- * 2. private static 클래스이름 instance = new 클래스이름();
- * 3. public static 클래스이름 getInstance() { return instance; }
+ * DAO 클래스에 사용하기 위한 Factory pattern 클래스
+ * @author 김기영
+ * @version ver 2.0
+ * @since 	jdk1.8
  */
 public class FactoryDao {
+	
+	
 	/** jdbc resource property */
 	private String driver = "oracle.jdbc.driver.OracleDriver";
 	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -58,9 +54,9 @@ public class FactoryDao {
 	
 	/**
 	 * 자원해제 : SELECT 수행에 대한 자원
-	 * @param conn
-	 * @param stmt
-	 * @param rs
+	 * @param conn Connection
+	 * @param stmt Statement
+	 * @param rs ResultSet
 	 */
 	public void close(Connection conn, Statement stmt, ResultSet rs) {
 		try {
@@ -88,19 +84,11 @@ public class FactoryDao {
 	
 	/**
 	 * 자원해제 : CUD 수행에 대한 자원
-	 * @param conn
-	 * @param stmt
+	 * @param conn Connection
+	 * @param stmt Statement
 	 */
 	public void close(Connection conn, Statement stmt) {
 		close(conn, stmt, null);
 	}
 }
-
-
-
-
-
-
-
-
 

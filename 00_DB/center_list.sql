@@ -12,8 +12,7 @@ create table center_list (
        adress  varchar2(30) not null,
        adress_detail varchar2(500) not null,
        phone_number varchar2(30) not null,
-       constraint pk_center_no primary key(center_no), 
-       constraint uk_center_phone_number unique(phone_number)
+       constraint pk_center_no primary key(center_no)
    );
     
     create sequence seq_center

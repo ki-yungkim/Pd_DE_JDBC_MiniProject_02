@@ -6,6 +6,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * <pre>
+ * 예방접종센터 DAO 클래스 
+ * 
+ * # Pattern Programming
+ *  - DAO Pattern
+ *  - Singleton Pattern
+ *  - Factory Pattern 
+ *
+ * # 메서드 목록
+ *  1. 센터명으로 상세 정보 조회
+ *  2. 시설명으로 상세 정보 조회
+ *  3. 주소로 상세 정보 조회
+ *  4. 전화번호로 상세 조회
+ *  5. 관리자 - 로그인
+ *  6. 관리자 - 센터 전체조회
+ *  7. 관리자 - 현재 등록 센터 수 조회
+ *  8. 관리자 - 센터 정보 등록
+ *  9. 관리자 - 센터 연락처 정보 변경
+ *  10. 관리자 - 센터 삭제 
+ *  
+ *  
+ * </pre>
+ * @author 김기영
+ * @version ver 2.0
+ * @since jdk1.8
+ *
+ *
+ */
 public class CenterDao {
 
 	private FactoryDao factory = FactoryDao.getInstance();
@@ -16,12 +45,23 @@ public class CenterDao {
 
 	}
 
+	/**
+	 * <pre>
+	 * Singleton pattern
+	 * </pre>
+	 * @return instance
+	 */
 	public static CenterDao getInstance() {
 		return instance;
 	}
 
-	// 센터명으로 정보 조회
-
+	/**
+	 * <pre>
+	 * 센터명 입력하여 상세 정보 조회
+	 * </pre>
+	 * @param centerName 센터명
+	 * @return 상세 정보
+	 */
 	public CenterList selectOneByCenterName(String centerName) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -57,8 +97,12 @@ public class CenterDao {
 		return null;
 	}
 
-	// 시설명으로 정보 조회
 
+	/**
+	 * 시설명으로 센터 정보 상세 조회
+	 * @param facilityName 시설명
+	 * @return 센터 상세 정보 
+	 */
 	public CenterList selectOneByFacilityName(String facilityName) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -76,7 +120,6 @@ public class CenterDao {
 
 			if(rs.next()) {
 				String centerName = rs.getString("center_name");
-				//String facilityName = rs.getString("facility_name");
 				String postcode = rs.getString("postnumber");
 				String address = rs.getString("adress");
 				String addressDetail = rs.getString("adress_detail");
@@ -95,8 +138,12 @@ public class CenterDao {
 		return null;
 	}
 
-	// 센터 주소로 정보 조회
 
+	/**
+	 * 센터 주소로 센터 정보 상세 조회
+	 * @param address 주소
+	 * @return 센터 상세 정보
+	 */
 	public CenterList selectOneByAdress(String address) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -132,7 +179,12 @@ public class CenterDao {
 		return null;
 	}
 
-
+	/**
+	 * 센터 주소로 상세 정보 조회 
+	 * 대상이 되는 여러 센터 출력 
+	 * @param address 주소
+	 * @return 센터 정보들 
+	 */
 	public ArrayList<CenterList> selectAddressAll(String address) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -172,9 +224,12 @@ public class CenterDao {
 
 		return list;
 	}
-	
-	// 전화번호로 센터조회
 
+	/**
+	 * 전화번호로 센터 상세 조회
+	 * @param phoneNumber 전화번호
+	 * @return 센터 상세 정보
+	 */
 	public CenterList selectOneByPhoneNumber(String phoneNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -196,7 +251,6 @@ public class CenterDao {
 				String postcode = rs.getString("postnumber");
 				String address = rs.getString("adress");
 				String addressDetail = rs.getString("adress_detail");
-				//String phoneNumber = rs.getString("phone_number");
 
 				CenterList dto = new CenterList(centerName, facilityName, postcode, address, addressDetail, phoneNumber);
 				return dto;
@@ -212,10 +266,12 @@ public class CenterDao {
 	}
 	
 	
-	
-	
-	// 관리자 로그인
-	
+	/**
+	 * 관리자 로그인 기능 
+	 * @param adminId 관리자 아이디
+	 * @param adminPw 관리자 비밀번호
+	 * @return 관리자명 
+	 */
 	public String adminLogin(String adminId, String adminPw) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -251,7 +307,10 @@ public class CenterDao {
 	
 	
 
-	// 관리자 - 전체 조회
+	/**
+	 * 센터 정보 전체 조회
+	 * @return 센터정보 list
+	 */
 	public ArrayList<CenterList> selectAll() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -262,7 +321,7 @@ public class CenterDao {
 		try {
 			conn = factory.getConnection();
 
-			String  sql = "select * from center_list";
+			String  sql = "select * from center_list order by center_no";
 			stmt = conn.prepareStatement(sql);
 
 			rs = stmt.executeQuery();
@@ -290,8 +349,11 @@ public class CenterDao {
 		return list;
 	}
 
-	// 관리자 - 현재 등록 센터 수 조회
-
+	
+	/** 
+	 * 현재 등록 센터 수 조회
+	 * @return 센터 수
+	 */
 	public int selectCenterCount() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -321,7 +383,16 @@ public class CenterDao {
 		return 0;
 	}
 	
-	// 관리자 - 센터 정보 등록 
+	/**
+	 * 센터 정보 등록 기능
+	 * @param centerName 센터명 
+	 * @param facilityName 시설명
+	 * @param postcode 우편번호
+	 * @param address 주소
+	 * @param addressDetail 상세주소
+	 * @param phoneNumber 전화번호
+	 * @return 성공하면 true, 실패하면 false
+	 */
 	public boolean insertCenter(String centerName, String facilityName, String postcode, String address, String addressDetail, String phoneNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -357,8 +428,14 @@ public class CenterDao {
 
 		return false;
 	}
+
 	
-	// 관리자 - 센터 연락처 정보 변경 
+	/**
+	 * 센터 연락처 정보 변경 기능
+	 * @param centerName 센터명
+	 * @param phoneNumber 전화번호
+	 * @return 변경 성공하면 true, 실패하면 false
+	 */
 	public boolean updateCenterPhone(String centerName, String phoneNumber) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -389,7 +466,11 @@ public class CenterDao {
 		return false;
 	}
 	
-	// 관리자 - 센터 하나 삭제 
+	/**
+	 * 센터 정보 1개 삭제 
+	 * @param centerName 센터명
+	 * @return 삭제 성공하면 true, 실패하면 false
+	 */
 	public boolean deleteCenterOne(String centerName) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -419,18 +500,5 @@ public class CenterDao {
 		return false;
 	}
 	
-	// 관리자 - 센터 정보 전체 삭제 
-
-
-
-	
-
-
-	// 초기 등록 센터 전달 
-
-	// 초기 센터 등록 
-
-	
-
 
 }

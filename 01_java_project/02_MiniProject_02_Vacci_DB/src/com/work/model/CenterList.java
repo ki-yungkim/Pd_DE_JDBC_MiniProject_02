@@ -14,7 +14,7 @@ package com.work.model;
  * 
  * </pre> 
  * @author 김기영
- * @version ver 1.0
+ * @version ver 2.0
  * @since jdk1.8
  */
 public class CenterList {
